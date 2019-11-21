@@ -19,16 +19,81 @@
 
 
 // we have to indicate that methods of the class Safearray are also inside the namespace xi
+#include "safearray.h"
+
 namespace xi {
 
+    template<typename T>
+    SafeArray<T>::SafeArray(size_t cap)
+    {
+        _storage = new T[cap];
+        _capacity = cap;
+    }
 
-template <typename T>
-SafeArray<T>::SafeArray(size_t cap)
-{
+    template<typename T>
+    SafeArray<T>::SafeArray(const SafeArray& safeArray)
+    {
+        _storage = new T[safeArray.getCapacity()];
 
-    // TODO: здесь необходимо добавить реализацию метода
-}
+        for (int i = 0; i < safeArray.getCapacity(); ++i)
+            _storage[i] = safeArray[i];
 
-// TODO: реализуйте остальные методы по образцу выше
+        _capacity = safeArray.getCapacity();
+    }
+
+    template<typename T>
+    SafeArray<T>::~SafeArray()
+    {
+        delete[] _storage;
+        _capacity = 0;
+    }
+
+    template<typename T>
+    T &SafeArray<T>::operator[](size_t k)
+    {
+        if (k < 0 || k >= _capacity)
+            throw std::out_of_range("Out of range");
+
+        return _storage[k];
+    }
+
+    template<typename T>
+    const T &SafeArray<T>::operator[](size_t k) const
+    {
+        if (k < 0 || k >= _capacity)
+            throw std::out_of_range("Out of range");
+
+        return _storage[k];
+    }
+
+    template<typename T>
+    size_t SafeArray<T>::getCapacity() const
+    {
+        return _capacity;
+    }
+
+    template<typename T>
+    void SafeArray<T>::checkBounds(size_t index) const
+    {
+        if (index < 0 || index >= _capacity)
+            throw std::out_of_range("Out of range");
+    }
+
+    template<typename T>
+    SafeArray<T>& SafeArray<T>::operator=(const SafeArray& safeArray)
+    {
+        if (this != &safeArray)
+        {
+            delete [] _storage;
+            _storage = new T[safeArray.getCapacity()];
+
+            for (int i = 0; i < safeArray.getCapacity(); ++i)
+                _storage[i] = safeArray[i];
+
+            _capacity = safeArray.getCapacity();
+        }
+
+        return *this;
+    }
 
 } // namespace xi

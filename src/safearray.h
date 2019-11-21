@@ -47,15 +47,26 @@ public:
      * \param[in] cap Размер (емкость) массива.
      */
     SafeArray(size_t cap);
-    
 
-    // TODO: не забудьте про конструктор копирования и еще кое-что!
-    
+    /** \brief Конструктор копирования.
+     *
+     *  Создание нового объекта через копирование существующего объекта.
+     * \param[in] safeArray Существующий объект.
+     */
+    SafeArray(const SafeArray& safeArray);
+
     /** \brief Деструктор.
      *
      *  Освобождает занимаемую массивом память.
      */
     ~SafeArray(); // destructor
+
+    /** \brief Оператор присваивания.
+     *
+     * \param[in] safeArray — существующий объект.
+     * \return Возвращает измененный объект
+     */
+    SafeArray& operator= (const SafeArray& safeArray);
 
     /** \brief Оператор индексирования.
      *

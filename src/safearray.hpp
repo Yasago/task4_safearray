@@ -19,8 +19,6 @@
 
 
 // we have to indicate that methods of the class Safearray are also inside the namespace xi
-#include "safearray.h"
-
 namespace xi {
 
     template<typename T>
